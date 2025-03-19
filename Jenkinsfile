@@ -1,48 +1,22 @@
-pipeline
-{
-	agent any
-		tools
-		{
-			maven 'MAVEN_HOME'
-		}
-		stages
-		{
-			stage('Welcome Stage')
-			{
-				steps
-				{
-					echo 'Welcome to Pipeline'
-				}
-			}
-			
-			stage('Clean Stage')
-			{
-				steps
-				{
-					bat 'mvn clean'
-				}
-			}
-			stage('Build Stage')
-			{
-				steps
-				{
-					bat 'mvn install'
-				}
-			}
-			stage('Build Success')
-			{
-				steps
-				{
-					echo 'Build Success'
-				}
-			}
-			stage('Finish Stage')
-			{
-				steps
-				{
-					echo 'Finish Stage'
-				}
-			}
-			
-		}
-}
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {          
+            steps {
+                git branch: "master", url: "https://github.com/JayvardhanSinghNegi/SL-MAVEN-8-FEB-BACTH"
+            }
+        }
+        stage('Build') {
+            steps {
+                // Use Maven to build your project
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Run tests if applicable
+                sh 'mvn test'
+            }
+        }
+    }
+} 
